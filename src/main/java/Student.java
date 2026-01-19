@@ -1,24 +1,30 @@
-public class Student {
+    public class Student {
 
-  private String Name;
-  private int Age;
+    private String Name;
+    private String Surname;
+    private int Age;
+    private String BirthDate;
 
-  public Student(String name, int age) {
-    Name = name;
-    Age = age;
-  }
+    public Student(String name, String surname, int age, String birthDate) {
+        Name = name;
+        Surname = surname;
+        Age = age;
+        BirthDate = birthDate;
+    }
 
-  public String GetName() {return Name;}
-  public int GetAge() {return Age;}
+    public String GetName() { return Name; }
+    public String GetSurname() { return Surname; }
+    public int GetAge() { return Age; }
+    public String GetBirthDate() { return BirthDate; }
+    public String ToString() {
+        return Name + " " + Surname + " " + Age + " " + BirthDate;
+    }
 
-  public String ToString() {
-    return Name + " " + Integer.toString(Age);
-  }
+    public static Student Parse(String str) {
+        String[] data = str.split(" ");
+        if (data.length != 4)
+            return new Student("ParseError", "ParseError", -1, "ParseError");
 
-  public static Student Parse(String str) {
-    String[] data = str.split(" ");
-    if(data.length != 2) 
-      return new Student("Parse Error", -1);
-    return new Student(data[0], Integer.parseInt(data[1]));
-  }
+        return new Student(data[0], data[1], Integer.parseInt(data[2]), data[3] );
+    }
 }

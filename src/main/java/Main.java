@@ -1,68 +1,65 @@
-/*
-Kod bazowy programu Commit4_0: 
-• Program dodaje do prostej bazy danych (pliku db.txt) dane odnośnie Studentów.
-• Studenci dodawani są w klasie Main.
-• Wszyscy studenci są wypisywani na końcu klasy Main.
-• Klasa Service obsługuje odczyt i zapis do pliku bazy danych.
-• Klasa Student reprezentuje pojedynczego studenta (Imię, Wiek).
-*/
-
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+
+        Service s = new Service();
         Scanner scanner = new Scanner(System.in);
-        Service service = new Service();
+        int wybor = -1;
 
-        int wybor = 0;
-
-        while (wybor != 3) {
-            System.out.println("\n=== MENU ===");
-            System.out.println("1 - Dodaj studenta");
-            System.out.println("2 - Wyświetl listę studentów");
-            System.out.println("3 - Wyjście");
-            System.out.print("Wybierz opcję: ");
+        while (wybor != 0) {
+            System.out.println("\n===== MENU APLIKACJI =====");
+            System.out.println("1 - Dodaj  studenta");
+            System.out.println("2 - Wyświetl  studentów");
+            System.out.println("0 - Wyjście");
+            System.out.print("Twój wybór: ");
 
             wybor = scanner.nextInt();
             scanner.nextLine(); // czyszczenie bufora
 
             switch (wybor) {
-                case 1:
-                    System.out.print("Podaj imię: ");
-                    String imie = scanner.nextLine();
 
-                    System.out.print("Podaj wiek: ");
-                    int wiek = scanner.nextInt();
+                case 1:
+                    System.out.print("Podaj imię studenta: ");
+                    String name = scanner.nextLine();
+
+                    System.out.print("Podaj nazwisko studenta: ");
+                    String surname = scanner.nextLine();
+
+                    System.out.print("Podaj wiek studenta: ");
+                    int age = scanner.nextInt();
                     scanner.nextLine();
 
+                    System.out.print("Podaj datę urodzenia studenta: ");  
+                    String birthDate = scanner.nextLine();
+
                     try {
-                        service.addStudent(new Student(imie, wiek));
-                        System.out.println("Dodano studenta!");
+                        s.addStudent(new Student(name, surname, age, birthDate));
+                        System.out.println("Student został dodany!");
                     } catch (IOException e) {
-                        System.out.println("Błąd zapisu do pliku!");
+                        System.out.println("Błąd zapisu do pliku.");
                     }
                     break;
 
                 case 2:
+                    System.out.println("\n=== Lista studentów ===");
                     try {
-                        Collection<Student> students = service.getStudents();
-                        System.out.println("\n=== LISTA STUDENTÓW ===");
-                        for (Student s : students) {
-                            System.out.println(s.ToString());
+                        var students = s.getStudents();
+                        for (Student current : students) {
+                            System.out.println(current.ToString());
                         }
                     } catch (IOException e) {
-                        System.out.println("Błąd odczytu pliku!");
+                        System.out.println("Błąd podczas odczytu pliku.");
                     }
                     break;
 
-                case 3:
-                    System.out.println("Zakończono program.");
+                case 0:
+                    System.out.println("Zamykanie aplikacji...");
                     break;
 
                 default:
-                    System.out.println("Nie ma takiej opcji!");
+                    System.out.println("Nieprawidłowy wybór!");
             }
         }
     }
